@@ -13,7 +13,7 @@ A fresh first flip is always allowed, including when an unrelated known pair is 
 
 ## Android build
 
-The APK targets Android 15 and supports Android 8.0 and later. Install the signed APK from the repository's Releases page.
+The APK targets Android 15 and supports Android 8.0 and later. [Download the signed Android installer](https://github.com/thesubrosian/concentration/raw/refs/heads/main/downloads/Concentration.apk).
 
 To build from source, use Java, Eclipse ECJ, Android SDK Platform 35, and Android SDK Build Tools 35.0.1. Run the build script from this directory with the paths to your installed tools.
 
