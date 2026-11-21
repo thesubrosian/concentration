@@ -46,7 +46,7 @@ test('ignoring the open tile’s known mate is a lapse even when exploring', () 
   assert.equal(game.lapses, 1);
 });
 
-test('an unrelated known pair does not prevent fresh first flips', () => {
+test('a successful match earns zero lapses even when another pair was already known', () => {
   const game = createGame(['blue', 'red', 'blue', 'green', 'red', 'green']);
 
   flipPair(game, 0, 1);
@@ -59,6 +59,55 @@ test('an unrelated known pair does not prevent fresh first flips', () => {
   assert.equal(game.lapses, 1);
   assert.equal(game.tiles[0].matched, false);
   assert.equal(game.tiles[2].matched, false);
+});
+
+test('skipping an available pair for two fresh mismatched tiles adds one lapse', () => {
+  const game = createGame(['blue', 'red', 'blue', 'green', 'red', 'green', 'orange', 'orange']);
+
+  flipPair(game, 0, 1);
+  game.hideMismatch();
+  flipPair(game, 2, 3);
+  game.hideMismatch();
+  assert.equal(game.lapses, 1);
+
+  assert.equal(game.flip(6), true);
+  assert.equal(game.lapses, 1);
+  assert.equal(game.flip(4), true);
+  assert.equal(game.attempts, 3);
+  assert.equal(game.lapses, 2);
+
+  game.hideMismatch();
+  flipPair(game, 1, 4);
+  assert.equal(game.lapses, 2);
+  assert.equal(game.tiles[0].matched, false);
+  assert.equal(game.tiles[2].matched, false);
+});
+
+test('skipping a known pair and then ignoring the first tile’s known mate adds two lapses', () => {
+  const game = createGame(['blue', 'red', 'blue', 'green', 'red', 'green']);
+
+  flipPair(game, 0, 1);
+  game.hideMismatch();
+  flipPair(game, 2, 3);
+  game.hideMismatch();
+  assert.equal(game.lapses, 1);
+
+  assert.equal(game.flip(4), true);
+  assert.equal(game.lapses, 1);
+  assert.equal(game.flip(5), true);
+  assert.equal(game.attempts, 3);
+  assert.equal(game.lapses, 3);
+});
+
+test('completed pairs do not penalize exploring fresh tiles', () => {
+  const game = createGame(['blue', 'red', 'blue', 'green', 'red', 'green', 'orange', 'orange']);
+
+  flipPair(game, 0, 1);
+  game.hideMismatch();
+  flipPair(game, 2, 0);
+  flipPair(game, 3, 6);
+  assert.equal(game.attempts, 3);
+  assert.equal(game.lapses, 0);
 });
 
 test('reopening two exposed nonmatching tiles can cause two lapses', () => {

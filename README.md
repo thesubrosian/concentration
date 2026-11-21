@@ -6,10 +6,10 @@ An offline Android version of the original color-matching memory game. The defau
 
 A match attempt consists of two flips. Successful matches always add zero memory lapses. After a mismatch, each of these choices adds one lapse based on which locations the player had exposed at the time of the flip.
 
-- Opening a previously seen square whose partner has yet to be revealed.
-- Flipping a second square when the first square's partner was already known, or revisiting a previously seen square when the partner was unknown.
+- On the first flip, passing up a known pair or reopening a square whose partner has yet to be revealed. A pair is known when both of its unmatched locations have been revealed before.
+- On the second flip, passing up the open square's known partner or reopening a previously seen square when the partner is still unknown.
 
-A fresh first flip is always allowed, including when an unrelated known pair is available.
+Two fresh flips that miss while an unrelated known pair is available add one lapse for the first flip. A missed opportunity to match the open square can add a second lapse.
 
 ## Android build
 

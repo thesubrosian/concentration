@@ -19,7 +19,9 @@ function createGame(colors) {
 
     if (!firstTile) {
       // Remember the information available before the reveal. Score only if the pair misses.
-      firstFlipWasLapse = tile.seen && !knownMate(tile);
+      firstFlipWasLapse = tile.seen
+        ? !knownMate(tile)
+        : tiles.some(other => other.seen && !other.matched && knownMate(other));
       firstTile = tile;
     } else {
       attempts++;
