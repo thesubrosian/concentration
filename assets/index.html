@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concentration</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, sans-serif;
+      color: #1c2824;
+      background: #f6f4ef;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: clamp(18px, 5vw, 32px);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 7vw, 40px);
+      font-weight: 750;
+      letter-spacing: -0.045em;
+    }
+
+    button { font: inherit; touch-action: manipulation; }
+    button:focus-visible { outline: 3px solid #205c49; outline-offset: 3px; }
+
+    #new-game {
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid #a8b5ad;
+      border-radius: 9px;
+      color: #234c3d;
+      background: #edf3ec;
+      font-size: 14px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 0 18px;
+    }
+
+    dl div {
+      min-width: 0;
+      padding: 11px 13px;
+      border: 1px solid #d9dfd8;
+      border-radius: 10px;
+      background: #fffdf8;
+    }
+
+    dt { color: #45584f; font-size: 13px; font-weight: 600; }
+    dd { margin: 3px 0 0; font-size: 25px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+      gap: var(--gap);
+      max-width: var(--board-width);
+    }
+
+    .tile {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      padding: 0;
+      border: 1px solid #0003;
+      border-radius: clamp(4px, 2vw, 10px);
+      background: #777f7c;
+    }
+
+    .tile[data-face-up="true"] { background: var(--tile-color); }
+    .tile[data-matched="true"] { box-shadow: inset 0 0 0 2px #fff9, inset 0 0 0 3px #0005; }
+    #result { margin: 16px 0 0; color: #234c3d; font-weight: 650; }
+    #result:empty { margin: 0; }
+
+    @media (orientation: landscape) and (max-height: 520px) {
+      main { max-width: 460px; padding: 12px 18px; }
+      header, dl { margin-bottom: 10px; }
+      h1 { font-size: 25px; }
+      dl div { padding: 6px 10px; }
+      dd { font-size: 20px; }
+      #board { max-width: min(var(--board-width), 65vh); margin: 0 auto; }
+    }
+  </style>
+  <script src="game.js" defer></script>
+  <script src="screen.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Concentration</h1>
+      <button type="button" id="new-game">New game</button>
+    </header>
+    <dl aria-label="Score">
+      <div><dt>Match attempts</dt><dd id="attempts" aria-live="polite">0</dd></div>
+      <div><dt>Memory lapses</dt><dd id="lapses" aria-live="polite">0</dd></div>
+    </dl>
+    <div id="board" role="group" aria-label="Game board"></div>
+    <p id="result" role="status"></p>
+  </main>
+</body>
+</html>
